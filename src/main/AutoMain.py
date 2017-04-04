@@ -95,34 +95,35 @@ def executeCase(strTestCase, driver):
 
 # if __name__ == '__main__':
 # create a new Google Chrome Session
-write("main : starts")
-
-strTestStatus = Sv.STATUS_FAILED
-
-strTestCase = input("Please input TestScripting Case (home/find/sell/how/about) : ")
-
-write("main : Chosen TestScripting Case : "+strTestCase)
-
-strURL_Path = urlValidation(strTestCase)
-
-write("main : Start the Chrome : Chosen URL path : "+strURL_Path)
-
-driver = webdriver.Chrome()
-driver.implicitly_wait(10)
-# driver.maximize_window()
-driver.get(strURL_Path)
-
-write("main : Execute : "+ strTestCase)
-
-try : 
-    strTestStatus = executeCase(strTestCase, driver)
-except utilCommon.MyError as mE :
+if __name__ == '__main__':
+    write("main : starts")
     
-    write("main : Execute : "+strTestStatus+" :Error: "+str(mE))
-
-driver.close()
-
-write("main : TestScripting Status : "+strTestStatus)
+    strTestStatus = Sv.STATUS_FAILED
+    
+    strTestCase = input("Please input TestScripting Case (home/find/sell/how/about) : ")
+    
+    write("main : Chosen TestScripting Case : "+strTestCase)
+    
+    strURL_Path = urlValidation(strTestCase)
+    
+    write("main : Start the Chrome : Chosen URL path : "+strURL_Path)
+    
+    driver = webdriver.Chrome()
+    driver.implicitly_wait(10)
+    # driver.maximize_window()
+    driver.get(strURL_Path)
+    
+    write("main : Execute : "+ strTestCase)
+    
+    try : 
+        strTestStatus = executeCase(strTestCase, driver)
+    except utilCommon.MyError as mE :
+        
+        write("main : Execute : "+strTestStatus+" :Error: "+str(mE))
+    
+    driver.close()
+    
+    write("main : TestScripting Status : "+strTestStatus)
 
 
     
