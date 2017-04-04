@@ -4,6 +4,10 @@ Created on Apr 3, 2017
 @author: csantoso
 '''
 
+STATUS_OK = "OK"
+STATUS_NOK = "NOK"
+STATUS_FAILED = "FAILED"
+STATUS_SUCCESS = "SUCCESS"
 
 HOME_URL_PATH = "https://truva.id"
 EXT_CARI_URL_PATH = "/cari/"

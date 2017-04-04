@@ -7,15 +7,12 @@ import os
 import datetime
 import time
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.webdriver import WebDriver
 
 import utility.StaticVariable  as Sv
 import utility.Common as utilCommon
-from _ast import Not
 
 
 dictHomeTestStatus = {}
@@ -92,11 +89,11 @@ def canSeeMarketPrice(driver) :
         
     write("canSeeMarketPrice : Starts")
     
-    strCanSeeMarketPrice_Status = "NOK";
+    strCanSeeMarketPrice_Status = Sv.STATUS_NOK;
     
     wait = WebDriverWait(driver,10)
     
-    write("canSeeMarketPrice : Run the Test 3 times ")
+    write("canSeeMarketPrice : Run the TestScripting 3 times ")
     
     dictCarTrueValue = {}
     
@@ -105,52 +102,36 @@ def canSeeMarketPrice(driver) :
     
     while(counterCarTrueValue < 3) :
                 
-        # Deciding Choose Brand
         strValue = ""
         
-        write("canSeeMarketPrice : Choose Brand ")
+        # Deciding Choose Brand        
+#         write("canSeeMarketPrice : Choose Brand ")
         strKey = _uniqueSelectOption(Sv.MARKET_PRICE_OPTION_BRAND, wait, driver, dictCarTrueValue)
                          
         #         Decide Choose Model
-
-        write("canSeeMarketPrice : Choose Model ")
+#         write("canSeeMarketPrice : Choose Model ")
         strValue=strValue+"||"+_commonSelectOption(Sv.MARKET_PRICE_OPTION_MODEL, wait, driver)
 
-        write("canSeeMarketPrice : Choose YEAR ")        
+
         #         Decide Choose YEAR
+#         write("canSeeMarketPrice : Choose YEAR ")        
         strValue=strValue+"||"+_commonSelectOption(Sv.MARKET_PRICE_OPTION_YEAR, wait, driver)
 
-        write("canSeeMarketPrice : Choose Variant ")        
+
         #         Decide Choose Variant
+#         write("canSeeMarketPrice : Choose Variant ")        
         strValue=strValue+"||"+_commonSelectOption(Sv.MARKET_PRICE_OPTION_VARIANT, wait, driver)
         
         #        get Min & MAx Price
-        
-#         while True : 
-#             
-#             print(1)
-#             strminPrice = driver.find_element(By.XPATH,'//span[@id="tm-value-meter__min-tick"]').get_attribute('text')
-# #             driver.find_element(By.XPATH,"//span[@id='tm-value-meter__min-tick']").get_attribute('text')
-#             
-#             if(strminPrice is not None):
-#                 print(2)
-#                 break
-#             else :
-#                 print(3)
-#                 time.sleep(5)
-# #                 wait.until(EC.text_to_be_present_in_element((By.XPATH,"//span[@id='tm-value-meter__max-tick']")))
-#         
-#        
-#         print(driver.find_element(By.XPATH,'//span[@id="tm-value-meter__min-tick"]').get_attribute('class'))
-#         
-#         strValue=strValue+"||"+ driver.find_element(By.XPATH,"//span[@id='tm-value-meter__min-tick']").get_attribute('text')
-#         strValue=strValue+"||"+ driver.find_element(By.XPATH,"//span[@id='tm-value-meter__max-tick']").get_attribute('text')        
-#         
+        time.sleep(1) #wait for value to be loaded
+        strValue=strValue+"|| min : "+ driver.find_element(By.XPATH,"//span[@id='tm-value-meter__min-tick']").get_attribute('innerHTML')
+        strValue=strValue+"|| max : "+ driver.find_element(By.XPATH,"//span[@id='tm-value-meter__max-tick']").get_attribute('innerHTML')        
+         
         dictCarTrueValue[strKey] = strValue  
         
         counterCarTrueValue = counterCarTrueValue + 1
         
-        time.sleep(2)
+        time.sleep(2) #wait for value to be loaded
             
     write("canSeeMarketPrice : Crawl Result : "+str(dictCarTrueValue))
     
@@ -161,12 +142,17 @@ def canSeeMarketPrice(driver) :
     for key, value in dictCarTrueValue.items():
         if ((value == "temporary") | (value is None)) :
             counterWrong = counterWrong + 1
-            
+        else :
+#             print("min : ",value[value.index("|| min : "):value.index("|| max : ")].split(' ')[3])
+#             print("max : ",value[value.index("|| max : "):].split(' ')[3])
+            if(value[value.index("|| min : "):value.index("|| max : ")].split(' ')[3] is None) | (value[value.index("|| min : "):value.index("|| max : ")].split(' ')[3]=="") | (value[value.index("|| max : "):].split(' ')[3] is None) | (value[value.index("|| max : "):].split(' ')[3]==""):
+                counterWrong = counterWrong + 1
+                
         
     if (counterWrong > 0 ):
         dictHomeTestStatus[Sv.CAN_SEE_MARKET_PRICE] = strCanSeeMarketPrice_Status
     else:
-        strCanSeeMarketPrice_Status = "OK"
+        strCanSeeMarketPrice_Status = Sv.STATUS_OK
         dictHomeTestStatus[Sv.CAN_SEE_MARKET_PRICE] = strCanSeeMarketPrice_Status
     
     
@@ -174,6 +160,7 @@ def runTest(driver):
     
     write("runTest : Start");
     
+    write("runTest : Can See Market Price?");
     canSeeMarketPrice(driver)
     
     write("runTest : End : "+str(dictHomeTestStatus))

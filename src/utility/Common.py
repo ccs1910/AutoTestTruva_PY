@@ -8,7 +8,7 @@ import datetime
 
 import utility.StaticVariable as Sv
 
-from random import randint, randrange
+from random import randrange
 
 class MyError(Exception):
      def __init__(self, value):
@@ -32,7 +32,7 @@ def getRandomElementValue(listValue, intMin):
 
 def printToFile(strStatus, strTestCase, dictOverallStatus):
     
-    write("printToFile : Test Case : "+strTestCase+" Result")
+    write("printToFile : Result TestScripting Case : "+strTestCase.upper())
     
     try :
 #         filepath = os.path.join('C:/Users/csantoso/AppData/Local/My Private Documents/001_tools/EclipsePortable/Data/workspace/PythonOutput',"Status_"+datetime.datetime.now().strftime(Sv.DATE_FORMAT_FILE)+".txt")
@@ -47,7 +47,7 @@ def printToFile(strStatus, strTestCase, dictOverallStatus):
         outFile.write(strStatus+" on "+datetime.datetime.now().strftime(Sv.DATE_FORMAT_LOG))
         outFile.write("\n")
         
-        outFile.write("==========Test Case : "+strTestCase+"==========")
+        outFile.write("==========TestScripting Case : "+strTestCase+"==========")
         outFile.write("\n")
         
         for key, value in dictOverallStatus.items():

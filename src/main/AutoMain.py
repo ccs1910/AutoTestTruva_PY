@@ -24,7 +24,7 @@ def write(strWrite):
 def urlValidation(strTestCase):
     strURL_Path = ""
     
-    write("urlValidation : starts : Test Case : "+strTestCase)
+    write("urlValidation : starts : TestScripting Case : "+strTestCase)
     
     if strTestCase.lower() == Sv.HOME_TEST_CASE.lower() :
         strURL_Path = Sv.HOME_URL_PATH
@@ -36,11 +36,11 @@ def urlValidation(strTestCase):
         
     else:
         
-        raise " Test Case Not Found"
+        raise " TestScripting Case Not Found"
 # #         write("Not Found")
 #         break
     
-    write("urlValidation : Ends")
+    write("urlValidation : Ends : "+strURL_Path)
     
     return strURL_Path
 
@@ -58,12 +58,12 @@ def urlValidation(strTestCase):
 #         strURL_Path = str.join(Sv.HOME_URL_PATH, Sv.EXT_CARI_URL_PATH)
 #     
 
-# Function to Execute Test Case
+# Function to Execute TestScripting Case
 
 def executeCase(strTestCase, driver):
     
-    strTestStatus = "Failed"
-    write("executeCase : Start : Test Case : "+strTestCase)  
+    strTestStatus = Sv.STATUS_FAILED
+    write("executeCase : Start : TestScripting Case : "+strTestCase)  
     
     dictOverallStatus = {}
     
@@ -73,14 +73,16 @@ def executeCase(strTestCase, driver):
          
         try :
             dictOverallStatus = HP.runTest (driver)
-            strTestStatus = "Test Completed"
+            strTestStatus = Sv.STATUS_SUCCESS
         except Exception as exp :
-            strTestStatus = "executeCase : Failed due to Error : ", str(exp)
             
-            raise utilCommon.MyError(strTestStatus)
+            strTestStatus = Sv.STATUS_FAILED
+            strExceptionMsg = "executeCase : Error : ", str(exp)
+            
+            raise utilCommon.MyError(strExceptionMsg)
     else :
         
-        raise utilCommon.MyError("executeCase : Failed : Test Case Not Found")
+        raise utilCommon.MyError("executeCase : TestScripting Case Not Found")
     
     utilCommon.printToFile(strTestStatus, strTestCase, dictOverallStatus);
     
@@ -95,11 +97,11 @@ def executeCase(strTestCase, driver):
 # create a new Google Chrome Session
 write("main : starts")
 
-strTestStatus = "Failed"
+strTestStatus = Sv.STATUS_FAILED
 
-strTestCase = input("Please input Test Case (home/find/sell/how/about) : ")
+strTestCase = input("Please input TestScripting Case (home/find/sell/how/about) : ")
 
-write("main : Chosen Test Case : "+strTestCase)
+write("main : Chosen TestScripting Case : "+strTestCase)
 
 strURL_Path = urlValidation(strTestCase)
 
@@ -120,7 +122,7 @@ except utilCommon.MyError as mE :
 
 driver.close()
 
-write("main : Test Status : "+strTestStatus)
+write("main : TestScripting Status : "+strTestStatus)
 
 
     
