@@ -97,4 +97,4 @@ ENV/
 /site
 
 # Report
-.txt
+*.txt
