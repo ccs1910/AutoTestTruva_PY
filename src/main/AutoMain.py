@@ -15,115 +15,126 @@ import os.path
 
 import datetime
 
-# Function to write logs
-def write(strWrite):
-    print(datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")+" : "+os.path.basename(__file__)," : ",strWrite)
+
+class AutoMain(object):
+    
+# Function to __write logs
+    def __write(self,strWrite):
+        print(datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")+" : "+os.path.basename(__file__)," : ",strWrite)
   
 # Function to validate URL
 
-def urlValidation(strTestCase):
-    strURL_Path = ""
-    
-    write("urlValidation : starts : TestScripting Case : "+strTestCase)
-    
-    if strTestCase.lower() == Sv.HOME_TEST_CASE.lower() :
-        strURL_Path = Sv.HOME_URL_PATH
-        
-    elif strTestCase.lower() == Sv.FIND_TEST_CASE.lower() :
-#         strURL_Path = str.join(Sv.HOME_URL_PATH, Sv.EXT_CARI_URL_PATH)
-
-        strURL_Path = Sv.HOME_URL_PATH
-        
-    else:
-        
-        raise " TestScripting Case Not Found"
-# #         write("Not Found")
-#         break
-    
-    write("urlValidation : Ends : "+strURL_Path)
-    
-    return strURL_Path
-
-# Use these for another test case. 
-#     elif strTestCase.lower() == Sv.HOME_TEST_CASE.lower() :
-#         strURL_Path = str.join(Sv.HOME_URL_PATH, Sv.EXT_CARI_URL_PATH)
-#     
-#     elif strTestCase.lower() == Sv.HOME_TEST_CASE.lower() :
-#         strURL_Path = str.join(Sv.HOME_URL_PATH, Sv.EXT_CARI_URL_PATH)
+#     def __urlValidation(self,strTestCase):
+#         strURL_Path = ""
 #         
-#     elif strTestCase.lower() == Sv.HOME_TEST_CASE.lower() :
-#         strURL_Path = str.join(Sv.HOME_URL_PATH, Sv.EXT_CARI_URL_PATH)    
+#         self.__write("__urlValidation : starts : Test Case : "+strTestCase)
 #         
-#     elif strTestCase.lower() == Sv.HOME_TEST_CASE.lower() :
-#         strURL_Path = str.join(Sv.HOME_URL_PATH, Sv.EXT_CARI_URL_PATH)
+#         if strTestCase.lower() == Sv.HOME_TEST_CASE.lower() :
+#             strURL_Path = Sv.HOME_URL_PATH
+#             
+#         elif strTestCase.lower() == Sv.FIND_TEST_CASE.lower() :
+#     #         strURL_Path = str.join(Sv.HOME_URL_PATH, Sv.EXT_CARI_URL_PATH)
 #     
-
-# Function to Execute TestScripting Case
-
-def executeCase(strTestCase, driver):
+#             strURL_Path = Sv.HOME_URL_PATH
+#             
+#         else:
+#             
+#             raise " Test Case Not Found"
+#     # #         __write("Not Found")
+#     #         break
+#         
+#         self.__write("__urlValidation : Ends : "+strURL_Path)
+#         
+#         return strURL_Path
     
-    strTestStatus = Sv.STATUS_FAILED
-    write("executeCase : Start : TestScripting Case : "+strTestCase)  
+       
+    # Function to Execute TestScripting Case
     
-    dictOverallStatus = {}
-    
-    if strTestCase.lower() == Sv.HOME_TEST_CASE.lower() : 
-        import modules.HomePage as HP
+    def __executeCase(self,strTestCase, driver):
         
-         
-        try :
-            dictOverallStatus = HP.runTest (driver)
-            strTestStatus = Sv.STATUS_SUCCESS
-        except Exception as exp :
-            
-            strTestStatus = Sv.STATUS_FAILED
-            strExceptionMsg = "executeCase : Error : ", str(exp)
-            
-            raise utilCommon.MyError(strExceptionMsg)
-    else :
+        strTestStatus = Sv.STATUS_FAILED
+        self.__write("__executeCase : Start : Test Case : "+strTestCase)  
         
-        raise utilCommon.MyError("executeCase : TestScripting Case Not Found")
+        dictOverallStatus = {}
+        
+        if strTestCase.lower() == Sv.HOME_TEST_CASE.lower() : 
+            import modules.HomePage as HP
+            
+             
+            try :
+                dictOverallStatus = HP.runTest (driver)
+                strTestStatus = Sv.STATUS_SUCCESS
+            except Exception as exp :
+                
+                strTestStatus = Sv.STATUS_FAILED
+                strExceptionMsg = "__executeCase : Error : ", str(exp)
+                
+                raise utilCommon.MyError(strExceptionMsg)
+            
+        elif strTestCase.lower() == Sv.FIND_TEST_CASE.lower() :
+            import modules.FindCarPage as FCP
+            
+            try :
+                dictOverallStatus = FCP.runTest (driver)
+                strTestStatus = Sv.STATUS_SUCCESS
+            except Exception as exp :
+                
+                strTestStatus = Sv.STATUS_FAILED
+                strExceptionMsg = "__executeCase : Error : ", str(exp)
+                
+                raise utilCommon.MyError(strExceptionMsg) 
+            
+            except utilCommon.MyError as mE :
+                
+                strExceptionMsg = "__executeCase : Error : ", str(exp)
+                
+                raise utilCommon.MyError(strExceptionMsg) 
+                          
+        else :
+            
+            raise utilCommon.MyError("__executeCase : Test Case Not Found")
+        
+        utilCommon.printToFile(strTestStatus, strTestCase, dictOverallStatus);
+        
+        self.__write("__executeCase : End : "+strTestStatus)
+        
+        return strTestStatus
+              
     
-    utilCommon.printToFile(strTestStatus, strTestCase, dictOverallStatus);
+    ############################################# main code starts here! #################################################
     
-    write("executeCase : End : "+strTestStatus)
-    
-    return strTestStatus
-          
-
-############################################# main code starts here! #################################################
-
-# if __name__ == '__main__':
-# create a new Google Chrome Session
+    # create a new Google Chrome Session
 if __name__ == '__main__':
-    write("main : starts")
+#         am = AutoMain()
+    
+    am = AutoMain()
+    am._AutoMain__write("main : starts")
     
     strTestStatus = Sv.STATUS_FAILED
     
-    strTestCase = input("Please input TestScripting Case (home/find/sell/how/about) : ")
+    strTestCase = input("Please input Test Case (home/find/sell/how/about) : ")
     
-    write("main : Chosen TestScripting Case : "+strTestCase)
+    am._AutoMain__write("main : Chosen Test Case : "+strTestCase)
     
-    strURL_Path = urlValidation(strTestCase)
+#     strURL_Path = am._AutoMain__urlValidation(strTestCase)
     
-    write("main : Start the Chrome : Chosen URL path : "+strURL_Path)
+    am._AutoMain__write("main : Start the Chrome : Chosen URL path : "+Sv.HOME_URL_PATH)
     
     driver = webdriver.Chrome()
     driver.implicitly_wait(10)
-    # driver.maximize_window()
-    driver.get(strURL_Path)
+    driver.get(Sv.HOME_URL_PATH)
     
-    write("main : Execute : "+ strTestCase)
+    am._AutoMain__write("main : Execute : "+ strTestCase)
     
     try : 
-        strTestStatus = executeCase(strTestCase, driver)
+        strTestStatus = am._AutoMain__executeCase(strTestCase, driver)
     except utilCommon.MyError as mE :
         
-        write("main : Execute : "+strTestStatus+" :Error: "+str(mE))
+        am._AutoMain__write("main : Execute : "+strTestStatus+" :Error: "+str(mE))
     
-    driver.close()
+#     driver.close()
     
-    write("main : TestScripting Status : "+strTestStatus)
-
-
+    am._AutoMain__write("main : Test Status : "+strTestStatus)
     
+    
+        

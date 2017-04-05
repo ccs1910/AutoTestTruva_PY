@@ -17,22 +17,22 @@ class MyError(Exception):
          return repr(self.value)
 
 
-def write(strWrite):
+def __write(strWrite):
     print(datetime.datetime.now().strftime(Sv.DATE_FORMAT_LOG)+" : "+os.path.basename(__file__)," : ",strWrite)
 
 
 def getRandomElementValue(listValue, intMin):
     
-#     write("getRandomElementValue : Size of ListValue :  "+str(len(listValue)))
+#     __write("getRandomElementValue : Size of ListValue :  "+str(len(listValue)))
     intIndex = randrange(intMin, len(listValue))
-#     write("getRandomElementValue : Index Number :  "+str(intIndex))
+#     __write("getRandomElementValue : Index Number :  "+str(intIndex))
     
     return listValue[intIndex]
 
 
 def printToFile(strStatus, strTestCase, dictOverallStatus):
     
-    write("printToFile : Result TestScripting Case : "+strTestCase.upper())
+    __write("printToFile : Result Test Case : "+strTestCase.upper())
     
     try :
 #         filepath = os.path.join('C:/Users/csantoso/AppData/Local/My Private Documents/001_tools/EclipsePortable/Data/workspace/PythonOutput',"Status_"+datetime.datetime.now().strftime(Sv.DATE_FORMAT_FILE)+".txt")
@@ -47,7 +47,7 @@ def printToFile(strStatus, strTestCase, dictOverallStatus):
         outFile.write(strStatus+" on "+datetime.datetime.now().strftime(Sv.DATE_FORMAT_LOG))
         outFile.write("\n")
         
-        outFile.write("==========TestScripting Case : "+strTestCase+"==========")
+        outFile.write("==========Test Case : "+strTestCase+"==========")
         outFile.write("\n")
         
         for key, value in dictOverallStatus.items():
