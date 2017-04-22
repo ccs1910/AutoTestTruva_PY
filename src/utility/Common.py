@@ -6,6 +6,9 @@ Created on Apr 3, 2017
 import os
 import datetime
 
+import time
+
+
 import utility.StaticVariable as Sv
 
 from random import randrange
@@ -30,7 +33,7 @@ def getRandomElementValue(listValue, intMin):
     return listValue[intIndex]
 
 
-def printToFile(strStatus, strTestCase, dictOverallStatus):
+def printToFile(strStatus, strTestCase, dictOverallStatus):#, start_time):
     
     __write("printToFile : Result Test Case : "+strTestCase.upper())
     
@@ -54,6 +57,11 @@ def printToFile(strStatus, strTestCase, dictOverallStatus):
             outFile.write(key+" = "+value)
             outFile.write("\n")
     
+#         strExecutionTime = str(time.clock() - start_time)
+        
+        outFile.write("=====Execution Time : "+str(round(time.perf_counter(),5))+" Secs=====")
+        
+        
         outFile.close()
     except Exception as exp :
         raise str(exp)

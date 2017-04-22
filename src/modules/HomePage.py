@@ -18,7 +18,7 @@ import utility.Common as utilCommon
 dictFindCarTestStatus = {}
 
 
-class HomePage(object):
+class HomeClass(object):
     def __write(self,strWrite):
         print(datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")+" : "+os.path.basename(__file__)," : ",strWrite)
     
@@ -162,14 +162,14 @@ class HomePage(object):
     
 def runTest(driver):
     
-    hp = HomePage()
+    hp = HomeClass()
     
-    hp._HomePage__write("runTest : Start");
+    hp._HomeClass__write("runTest : Start");
     
-    hp._HomePage__write("runTest : Can See Market Price?");
-    hp._HomePage__canSeeMarketPrice(driver)
+    hp._HomeClass__write("runTest : Can See Market Price?");
+    hp._HomeClass__canSeeMarketPrice(driver)
     
-    hp._HomePage__write("runTest : End : "+str(dictFindCarTestStatus))
+    hp._HomeClass__write("runTest : End : "+str(dictFindCarTestStatus))
     
     return dictFindCarTestStatus
     

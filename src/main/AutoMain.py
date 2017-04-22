@@ -5,7 +5,6 @@ Created on Apr 3, 2017
 '''
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
 import utility.StaticVariable  as Sv
 
@@ -15,8 +14,11 @@ import os.path
 
 import datetime
 
+import time
 
-class AutoMain(object):
+start_time = time.clock()
+
+class AutoClass(object):
     
 # Function to __write logs
     def __write(self,strWrite):
@@ -86,7 +88,7 @@ class AutoMain(object):
             
             except utilCommon.MyError as mE :
                 
-                strExceptionMsg = "__executeCase : Error : ", str(exp)
+                strExceptionMsg = "__executeCase : Error : ", str(mE)
                 
                 raise utilCommon.MyError(strExceptionMsg) 
                           
@@ -94,7 +96,7 @@ class AutoMain(object):
             
             raise utilCommon.MyError("__executeCase : Test Case Not Found")
         
-        utilCommon.printToFile(strTestStatus, strTestCase, dictOverallStatus);
+        utilCommon.printToFile(strTestStatus, strTestCase, dictOverallStatus);#, start_time);
         
         self.__write("__executeCase : End : "+strTestStatus)
         
@@ -106,35 +108,35 @@ class AutoMain(object):
     # create a new Google Chrome Session
 if __name__ == '__main__':
 #         am = AutoMain()
-    
-    am = AutoMain()
-    am._AutoMain__write("main : starts")
+        
+    am = AutoClass()
+    am._AutoClass__write("main : starts")
     
     strTestStatus = Sv.STATUS_FAILED
     
     strTestCase = input("Please input Test Case (home/find/sell/how/about) : ")
     
-    am._AutoMain__write("main : Chosen Test Case : "+strTestCase)
+    am._AutoClass__write("main : Chosen Test Case : "+strTestCase)
     
 #     strURL_Path = am._AutoMain__urlValidation(strTestCase)
     
-    am._AutoMain__write("main : Start the Chrome : Chosen URL path : "+Sv.HOME_URL_PATH)
+    am._AutoClass__write("main : Start the Chrome : Chosen URL path : "+Sv.HOME_URL_PATH)
     
     driver = webdriver.Chrome()
     driver.implicitly_wait(10)
     driver.get(Sv.HOME_URL_PATH)
     
-    am._AutoMain__write("main : Execute : "+ strTestCase)
+    am._AutoClass__write("main : Execute : "+ strTestCase)
     
     try : 
-        strTestStatus = am._AutoMain__executeCase(strTestCase, driver)
+        strTestStatus = am._AutoClass__executeCase(strTestCase, driver)
     except utilCommon.MyError as mE :
         
-        am._AutoMain__write("main : Execute : "+strTestStatus+" :Error: "+str(mE))
+        am._AutoClass__write("main : Execute : "+strTestStatus+" :Error: "+str(mE))
     
 #     driver.close()
     
-    am._AutoMain__write("main : Test Status : "+strTestStatus)
+    am._AutoClass__write("main : Test Status : "+strTestStatus)
     
     
         
