@@ -8,7 +8,7 @@ Feature: Checking market price
 
 
 
-Scenario: Using TVM
+Scenario: Using True Value Meter (TVM) in home page
 
     Given I am on Truva home page
     When I select a random brand from the TVM brand dropdown list

@@ -15,3 +15,12 @@ Scenario: Using advanced search filters
         And I select a random price range from the in price dropdown list
     Then I see zero or more cars
         And Every car that I see matches the criteria that I selected
+        And Every car that I see are available for sale
+
+
+
+# Scenario: Using search bar in home page
+
+
+
+# Scenario: Registering to Truva consultation service
