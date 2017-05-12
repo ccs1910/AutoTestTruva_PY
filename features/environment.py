@@ -22,18 +22,33 @@ before_tag(context, tag), after_tag(context, tag)
 # step_matcher("cfparse")
 
 from selenium import webdriver
+from utilities import static_variable as sv
+
+import os
+import datetime
+import time
+
+outFile = None
+
+def before_all(context):
+    # -- SET LOG LEVEL: behave --logging-level=ERROR ...
+    # on behave command-line or in "behave.ini".
+    context.config.setup_logging()
+    
+#     outFile = open("Status_"+datetime.datetime.now().strftime(sv.DATE_FORMAT_FILE)+".txt","w+")
+    
 
 def before_feature(context,feature):
-    context.config.setup_logging()
-    
+#     outFile.write("Start")
     context.browser = webdriver.Chrome()
-    context.browser.get("https://truva.id")
-#     context.browser.get(sv.HOME_URL_PATH)
+#     context.browser.get("https://truva.id")
+    context.browser.get(sv.HOME_URL_PATH)
     
-    
-    
-    
-        
 def after_feature(context,feature):
-    context.config.setup_logging()
     context.browser.quit()
+    
+    
+# def before_step(context, step):
+    
+def after_step(context, step):
+    time.sleep(2)
