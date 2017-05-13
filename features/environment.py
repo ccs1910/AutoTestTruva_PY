@@ -35,20 +35,29 @@ def before_all(context):
     # on behave command-line or in "behave.ini".
     context.config.setup_logging()
     
+    options = webdriver.ChromeOptions()
+    options.add_argument("--start-maximized")
+    
+    context.browser = webdriver.Chrome(chrome_options=options)
+#     context.browser.get("https://truva.id")
+    context.browser.get(sv.HOME_URL_PATH)
 #     outFile = open("Status_"+datetime.datetime.now().strftime(sv.DATE_FORMAT_FILE)+".txt","w+")
     
 
-def before_feature(context,feature):
-#     outFile.write("Start")
-    context.browser = webdriver.Chrome()
-#     context.browser.get("https://truva.id")
-    context.browser.get(sv.HOME_URL_PATH)
+# def before_feature(context,feature):
+# #     outFile.write("Start")
+#     context.browser = webdriver.Chrome()
+# #     context.browser.get("https://truva.id")
+#     context.browser.get(sv.HOME_URL_PATH)
     
-def after_feature(context,feature):
-    context.browser.quit()
+# def after_feature(context,feature):
+#     context.browser.quit()
     
     
 # def before_step(context, step):
     
 def after_step(context, step):
     time.sleep(2)
+    
+def after_all(context):
+    context.browser.quit()

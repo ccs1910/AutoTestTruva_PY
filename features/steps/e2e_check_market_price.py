@@ -40,38 +40,6 @@ from utilities import static_variable as sv
 
 from utilities import common as utilCommon
 
-# def uniqueSelectOption (strSelected, wait, driver, dictCarTrueValue) :
-# #     self.__write("__uniqueSelectOption : Starts : Option : "+strSelected)
-#     
-#     while True :
-#         webElementContainer = driver.find_element(By.XPATH,"//select[@id='"+strSelected+"']")
-#         
-#         webElementContainer.click()
-#         
-#         listElementOptions = webElementContainer.find_elements(By.TAG_NAME,"option")
-#         
-#         if len(listElementOptions) > 1:
-#            break 
-#         else :
-#             wait.until(EC.presence_of_all_elements_located((By.XPATH, "//select[@id='"+strSelected+"']/option")))
-#     
-#     strSelectedItem = "temp";
-#      
-#     while True :
-#         strSelectedItem = utilCommon.getRandomElementValue(listElementOptions, 1).get_attribute('text')
-#         
-#         if(strSelectedItem not in dictCarTrueValue):
-#            break
-#         
-#     dictCarTrueValue[strSelectedItem] = "temporary";
-#         
-#     driver.find_element(By.XPATH,"//select[@id='"+strSelected+"']/option[.='"+strSelectedItem+"']").click() 
-#     
-# #     self.__write("__uniqueSelectOption : Ends : Selected Item : "+strSelectedItem)
-#     
-#     return strSelectedItem
-
-
 def commonSelectOption (strSelected, browser):
 #     self.__write("__commonSelectOption : Starts : Option : "+strSelected)
     wait = WebDriverWait(browser,2)
@@ -102,9 +70,11 @@ def commonSelectOption (strSelected, browser):
 #     self.__write("__commonSelectOption : Ends : Selected Item : "+strSelectedItem)
     return strSelectedItem
 
+
 @given('I am on Truva home page')
 def step_impl(context): 
     print(" Do Nothing")
+#     context.browser.scroll()
     pass    
     
     
