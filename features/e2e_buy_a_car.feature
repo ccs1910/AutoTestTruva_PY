@@ -7,7 +7,7 @@ Feature: Buying a car
 
 Scenario: Submitting my contact information in car detail page
 
-    Given I am on a random car detail page on Truva
+	Given I am on a random car detail page on Truva
     When I click on Hubungi Kami button 
         And I enter my name and phone number in the popped-up form
         #And I enter my name and phone number in the displayed form

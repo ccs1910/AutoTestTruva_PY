@@ -6,6 +6,7 @@ Created on May 11, 2017
 from lib2to3.fixes.fix_input import context
 from pydoc import importfile
 from behave.model import Step
+from selenium import webdriver
 
 
 
@@ -40,6 +41,8 @@ from utilities import static_variable as sv
 
 from utilities import common as utilCommon
 
+import time
+
 def commonSelectOption (strSelected, browser):
 #     self.__write("__commonSelectOption : Starts : Option : "+strSelected)
     wait = WebDriverWait(browser,2)
@@ -73,15 +76,25 @@ def commonSelectOption (strSelected, browser):
 
 @given('I am on Truva home page')
 def step_impl(context): 
-    print(" Do Nothing")
-#     context.browser.scroll()
-    pass    
+#     print(" Move to Home Page : ",context.browser.current_url)
+    wait = WebDriverWait(context.browser, 3)
+    
+    if context.browser.current_url != sv.HOME_URL_PATH :
+        context.browser.find_element(By.XPATH,"//div[@class='navbar-header']/a[@href='/']").click()
+        wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[.='Harga Pasaran Saat Ini']")))
+            
+    else :    
+        if context.browser.current_url == sv.HOME_URL_PATH:
+            print ("Current URL : "+context.browser.current_url)
+        else:
+            assert context.failed is True 
+                
     
     
 @when('I select a random brand from the TVM brand dropdown list')
 def step_impl(context):
     strValue = commonSelectOption('brand', context.browser)
-    if(strValue is None):
+    if(strValue is None or strValue == ""):
         assert context.failed is True
     else:
         print("Selected Brand :",strValue)
@@ -89,7 +102,7 @@ def step_impl(context):
 @when('I select a random model from the TVM model dropdown list')
 def step_impl(context):
     strValue = commonSelectOption('model', context.browser)
-    if(strValue is None):
+    if(strValue is None or strValue == ""):
         assert context.failed is True
     else:
         print("Selected Model :",strValue)    
@@ -97,7 +110,7 @@ def step_impl(context):
 @when('I select a random year from the TVM year dropdown list')
 def step_impl(context):
     strValue = commonSelectOption('year', context.browser)
-    if(strValue is None):
+    if(strValue is None or strValue == ""):
         assert context.failed is True
     else:
         print("Selected Year :",strValue)
@@ -105,7 +118,7 @@ def step_impl(context):
 @when('I select a random variant from the TVM variant dropdown list')
 def step_impl(context):
     strValue = commonSelectOption('variant', context.browser)
-    if(strValue is None):
+    if(strValue is None or strValue == ""):
         assert context.failed is True
     else:
         print("Selected Variant :",strValue)
@@ -113,8 +126,9 @@ def step_impl(context):
         
 @then('I see a non-blank minimum price')
 def step_impl(context):
+    time.sleep(2)
     strValue = context.browser.find_element(By.XPATH,"//span[@id='tm-value-meter__min-tick']").get_attribute('innerHTML')
-    if(strValue is None):
+    if(strValue is None or strValue == ""):
         assert context.failed is True
     else:
         print("Minimum Value :",strValue)
@@ -122,7 +136,7 @@ def step_impl(context):
 @then('I see a non-blank maximum price')
 def step_impl(context):
     strValue = context.browser.find_element(By.XPATH,"//span[@id='tm-value-meter__max-tick']").get_attribute('innerHTML')
-    if(strValue is None):
+    if(strValue is None or strValue == ""):
         assert context.failed is True
     else:
         print("Maximum Value :",strValue)

@@ -36,89 +36,95 @@ import time
 
 @given('I am on Truva Jual page')
 def step_impl(context): 
-    context.browser.find_element(By.XPATH,"//ul[@class='nav navbar-nav pull-right']//a[@href='/jual/']").click()
-    time.sleep(3)
     
-    if context.browser.current_url == sv.HOME_URL_PATH+sv.EXT_JUAL_URL_PATH:
-        print ("Current URL : "+context.browser.current_url)
-    else:
-        assert context.failed is True  
+    if context.browser.current_url != sv.HOME_URL_PATH+sv.EXT_JUAL_URL_PATH:
+        context.browser.find_element(By.XPATH,"//ul[@class='nav navbar-nav pull-right']//a[@href='/jual/']").click()
+        time.sleep(3)
+    else :    
+        if context.browser.current_url == sv.HOME_URL_PATH+sv.EXT_JUAL_URL_PATH:
+            print ("Current URL : "+context.browser.current_url)
+        else:
+            assert context.failed is True  
         
-    print("Check All Elements")
-    elements = context.browser.find_elements(By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input")#"//form[@action='/jual/#wpcf7-f5-p9-o2']/p")
-    for element in elements:
-        print(element.get_attribute("type"))
-        print(element.get_attribute("innerHTML"))
-#         print(element.find_element(By.XPATH,"//input").get_attribute("placeholder"))
+        """DO NOT DELETE, FOR DEBUG"""
+#     print("Check All Elements") 
+#     elements = context.browser.find_elements(By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input")#"//form[@action='/jual/#wpcf7-f5-p9-o2']/p")
+#     for element in elements:
+#         print("type: ",element.get_attribute("type"))
+#         
+#         if(element.get_attribute("name") is None):
+#             assert context.failed is True
 
 
 @when('I enter my name and phone number in the displayed form')
 def step_impl(context):
-#     time.sleep(2)
-    
-#     wait = WebDriverWait(context.browser, 10)
-    
-#     name = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='name']")))
-#     name.clear()
-#     name.send_keys("Test")
-#     phonenum = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='phonenum']")))
-#     phonenum.clear()
-#     phonenum.send_keys("08110011011")
-    
-    print("inserting name")
-    context.browser.execute_script("document.getElementsByName('_wpcf7').type='none'")
-    context.browser.execute_script('document.getElementsByName("name").value="TestName"')
-    context.browser.execute_script('document.getElementsByName("name").placeholder="TestName"')
-    context.browser.find_element(By.XPATH,"//input[@name='name']").click()
-    context.browser.find_element(By.XPATH,"//input[@name='name']").send_keys("Test Name")
-    print("inserting phoneNumber")
-    context.browser.execute_script('document.getElementsByName("phonenum").value="08110011011"')
 
-    pass
+    wait = WebDriverWait(context.browser, 3)
+    
+    name = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@name='name']")))
+    name.clear()
+    name.click()
+    name.send_keys(sv.TEST_NAME)
+
+    phonenum = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@name='phonenum']")))
+    phonenum.clear()
+    phonenum.click()
+    phonenum.send_keys(sv.TEST_PHONENUMBER)
+    
 
 @when('I enter mock@truva.id in the email address field of the form')
 def step_impl(context):
-    wait = WebDriverWait(context.browser, 10)
+    wait = WebDriverWait(context.browser, 3)
     
-    email = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='email']")))
-    email.clear()
-    email.send_keys("mock@truva.id")
-
-    pass
-
+    email = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@name='email']")))
+    email.click()
+    email.send_keys(sv.TEST_EMAIL)
+    
 @when('I enter my car information in the form')
 def step_impl(context):
-    wait = WebDriverWait(context.browser, 10)
+    wait = WebDriverWait(context.browser, 3)
     
-    model = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='model']")))
+    model = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@name='model']")))
     model.clear()
-    model.send_keys("Honda")
+    model.click()
+    model.send_keys(sv.TEST_MODEL)
     
-    year = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='year']")))
+    year = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@name='year']")))
     year.clear()
-    year.send_keys("2016")
+    year.click()
+    year.send_keys(sv.TEST_YEAR)
     
-    odo = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='odo']")))
+    odo = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@name='odo']")))
     odo.clear()
-    odo.send_keys("100000")
+    odo.click()
+    odo.send_keys(sv.TEST_ODO)
     
-    location = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='location']")))
+    location = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@name='location']")))
     location.clear()
-    location.send_keys("Bali")
+    location.click()
+    location.send_keys(sv.TEST_LOCATION)
     
-    pass
 
 @when('I click the Submit button')
 def step_impl(context):
-    wait = WebDriverWait(context.browser, 10)
+    wait = WebDriverWait(context.browser, 3)
     
-    submit = wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@type='submit']")))
+    submit = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/p//input[@type='submit']")))
 #     submit.clear()
     submit.click()
-    pass
+    
 
 
 @then('I see a notification that my message is sent')
 def step_impl(context):
-    pass
-
+    wait = WebDriverWait(context.browser, 5)
+    
+    response = wait.until(EC.visibility_of_element_located((By.XPATH, "//form[@action='/jual/#wpcf7-f5-p9-o2']/div[@role='alert']")))
+#     print(response.get_attribute('innerHTML'))
+    
+    if response.get_attribute('innerHTML') != sv.TEST_SUCCESS_SUBMIT :
+        print("Notification : ",response.get_attribute('innerHTML'))
+        assert context.failed is True
+    
+    time.sleep(2)
+   

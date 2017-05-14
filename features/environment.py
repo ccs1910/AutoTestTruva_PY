@@ -30,10 +30,18 @@ import time
 
 outFile = None
 
+def setup_debug_on_error(userdata):
+    global BEHAVE_DEBUG_ON_ERROR
+    BEHAVE_DEBUG_ON_ERROR = userdata.getbool("BEHAVE_DEBUG_ON_ERROR")
+
 def before_all(context):
     # -- SET LOG LEVEL: behave --logging-level=ERROR ...
     # on behave command-line or in "behave.ini".
     context.config.setup_logging()
+#     if not context.config.log_capture:
+#         logging.basicConfig(level=logging.DEBUG)
+    
+    setup_debug_on_error(context.config.userdata)
     
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
@@ -57,7 +65,11 @@ def before_all(context):
 # def before_step(context, step):
     
 def after_step(context, step):
-    time.sleep(2)
-    
+    if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
+        # -- ENTER DEBUGGER: Zoom in on failure location.
+        # NOTE: Use IPython debugger, same for pdb (basic python debugger).
+        import ipdb
+        ipdb.post_mortem(step.exc_traceback)
+        
 def after_all(context):
     context.browser.quit()

@@ -34,10 +34,23 @@ from utilities import static_variable as sv
 
 from utilities import common as utilCommon
 
+import time
+
 
 @given('I am on a random car detail page on Truva')
 def step_impl(context): 
-    pass
+#     print(" Move to Cari/Beli Page : ",context.browser.current_url)
+    
+    if context.browser.current_url != sv.HOME_URL_PATH+sv.EXT_CARI_URL_PATH:
+        context.browser.find_element(By.XPATH,"//ul[@class='nav navbar-nav pull-right']//a[@href='/cari/']").click()
+        time.sleep(3)
+    else :    
+        if context.browser.current_url == sv.HOME_URL_PATH+sv.EXT_CARI_URL_PATH:
+            print ("Current URL : "+context.browser.current_url)
+            
+        else:
+            assert context.failed is True   
+
 
 @when('I click on Hubungi Kami button')
 def step_impl(context): 
