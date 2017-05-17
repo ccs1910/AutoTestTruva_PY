@@ -73,6 +73,7 @@ def getFilterValue(strChosenFilter, browser):
                 break
     else:
         strChosenValue = utilCommon.getRandomElementValue(listOfElement, 0).get_attribute("text")
+        print(strChosenValue)
 
     time.sleep(2) #apparently sleep needed to wait for the value to be displayed.
             

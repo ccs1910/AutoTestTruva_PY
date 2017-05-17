@@ -126,5 +126,3 @@ def step_impl(context):
         print("Notification : ",response.get_attribute('innerHTML'))
         assert context.failed is True
     
-    time.sleep(2)
-   

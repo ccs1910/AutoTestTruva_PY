@@ -41,34 +41,61 @@ import time
 def step_impl(context): 
 #     print(" Move to Cari/Beli Page : ",context.browser.current_url)
     
-    if context.browser.current_url != sv.HOME_URL_PATH+sv.EXT_CARI_URL_PATH:
-        context.browser.find_element(By.XPATH,"//ul[@class='nav navbar-nav pull-right']//a[@href='/cari/']").click()
-        time.sleep(3)
-    else :    
-        if context.browser.current_url == sv.HOME_URL_PATH+sv.EXT_CARI_URL_PATH:
-            print ("Current URL : "+context.browser.current_url)
-            
-        else:
-            assert context.failed is True   
+#     if context.browser.current_url != sv.HOME_URL_PATH:
+#         context.browser.find_element(By.XPATH,"//div[@class='navbar-header']/a[@href='/']").click()
+#         
+#     else :    
+#         if context.browser.current_url == sv.HOME_URL_PATH:
+#             print ("Current URL : "+context.browser.current_url)
+#             
+#         else:
+#             assert context.failed is True   
+    context.wait = WebDriverWait(context.browser, 5)
+    context.wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[.='Penawaran Terbaik Saat Ini']")))
+    
+    context.browser.find_element(By.XPATH, "//div[@class='slide'][1]/a/div[@class='car-block']/div[@class='img-flex']/img").click()
 
+    print("Chosen Car : "+context.browser.current_url)
 
 @when('I click on Hubungi Kami button')
 def step_impl(context): 
-    pass
+    callUs = context.wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@data-target='#buy-form-modal']")))
+    callUs.click()
+    
 
 @when('I enter my name and phone number in the popped-up form')
 def step_impl(context): 
-    pass
+    name = context.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id='buy-form-modal']//p//input[@name='name']")))
+    name.clear()
+    name.click()
+    name.send_keys(sv.TEST_NAME)
 
 @when('I enter mock@truva.id in the email address field of the popped-up form')
 def step_impl(context): 
-    pass
+    phonenum = context.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id='buy-form-modal']//p//input[@name='phonenum']")))
+    phonenum.clear()
+    phonenum.click()
+    phonenum.send_keys(sv.TEST_PHONENUMBER)
+
+    email = context.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id='buy-form-modal']//p//input[@name='email']")))
+    email.clear()
+    email.click()
+    email.send_keys(sv.TEST_EMAIL)
+    
 
 @when('I click the Submit button in the popped-up form')
 def step_impl(context): 
-    pass
+    submit = context.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id='buy-form-modal']//p//input[@type='submit']")))
+    submit.click()
 
 @then('I see a notification that my message is sent in the popped-up form')
-def step_impl(context): 
-    pass
-
+def step_impl(context):
+    response = context.wait.until(EC.visibility_of_element_located((By.XPATH, "//div[@id='buy-form-modal']//form[@class='wpcf7-form sent']//div[@role='alert']")))
+    
+    print("Response : "+response.get_attribute('innerHTML'))
+    
+    if response.get_attribute('innerHTML') != sv.TEST_SUCCESS_SUBMIT :
+        print("Notification : ",response.get_attribute('innerHTML'))
+        assert context.failed is True 
+        
+        
