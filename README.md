@@ -6,10 +6,10 @@ Installation
     code using Git, thus allowing you to easily pull updates and push your
     changes.
 
-2.  __Download ChromeDriver.__ You can download it for free from
-    (https://sites.google.com/a/chromium.org/chromedriver/downloads). It's an
-    open source interface to Google Chrome browser. Therefore, you also need to
-    have Google Chrome or Chromium browser installed.
+2.  __Download ChromeDriver.__ You can download it for free from [Chromium
+    project](https://sites.google.com/a/chromium.org/chromedriver/downloads).
+    It's an open source interface to Google Chrome browser. Therefore, you also
+    need to have Google Chrome or Chromium browser installed.
 
 3.  __Install Python 3 and Python `virtualenv`.__
 
@@ -26,8 +26,10 @@ Installation
     $ source venv/bin/activate
     ```
 
-6.  __Install the required Python packages.__ This includes Behave BDD
-    framework, Requests HTTP library, and bindings for Selenium.
+6.  __Install the required Python packages.__ This includes [Behave BDD
+    framework](https://github.com/behave/behave), [Requests HTTP
+    library](https://github.com/kennethreitz/requests), and [bindings for
+    Selenium WebDriver E2E](https://pypi.python.org/pypi/selenium).
 
     ```
     $ pip install behave requests selenium
