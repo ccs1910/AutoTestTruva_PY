@@ -96,5 +96,8 @@ ENV/
 # mkdocs documentation
 /site
 
+# Development Project
+.pydevproject
+
 # Report
 *.txt
