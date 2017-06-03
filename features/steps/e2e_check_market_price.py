@@ -8,30 +8,6 @@ from pydoc import importfile
 from behave.model import Step
 from selenium import webdriver
 
-
-
-"""
-Feature: Checking market price
-
-    As a prospect used car seller
-    I want to know the fair market price of the car that I want to sell
-
-    As a prospect used car buyer
-    I want to know the fair market price of the car that I want to buy
-
-
-
-Scenario: Using True Value Meter (TVM) in home page
-
-    Given I am on Truva home page
-    When I select a random brand from the TVM brand dropdown list
-        And I select a random model from the TVM model dropdown list
-        And I select a random year from the TVM year dropdown list
-        And I select a random variant from the TVM variant dropdown list
-    Then I see a non-blank minimum price
-        And I see a non-blank maximum price
-"""
-
 from behave import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -77,11 +53,12 @@ def commonSelectOption (strSelected, browser):
 @given('I am on Truva home page')
 def step_impl(context): 
 #     print(" Move to Home Page : ",context.browser.current_url)
-    wait = WebDriverWait(context.browser, 3)
+    context.wait = WebDriverWait(context.browser, 20)
     
     if context.browser.current_url != sv.HOME_URL_PATH :
+        
         context.browser.find_element(By.XPATH,"//div[@class='navbar-header']/a[@href='/']").click()
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[.='Harga Pasaran Saat Ini']")))
+        context.wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[.='Harga Pasaran Saat Ini']")))
             
     else :    
         if context.browser.current_url == sv.HOME_URL_PATH:

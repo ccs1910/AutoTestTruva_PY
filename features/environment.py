@@ -50,7 +50,9 @@ def before_all(context):
 #     context.browser.get("https://truva.id")
     context.browser.get(sv.HOME_URL_PATH)
 #     outFile = open("Status_"+datetime.datetime.now().strftime(sv.DATE_FORMAT_FILE)+".txt","w+")
-    
+
+def before_feature(context, feature):
+    time.sleep(2)
 
 # def before_feature(context,feature):
 # #     outFile.write("Start")

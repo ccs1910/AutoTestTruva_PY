@@ -1,4 +1,3 @@
-@wip
 Feature: Buying a car
 
     As a prospect used car buyer

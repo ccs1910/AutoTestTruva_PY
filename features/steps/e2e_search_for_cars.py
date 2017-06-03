@@ -6,27 +6,6 @@ Created on May 13, 2017
 from selenium.common.exceptions import NoSuchElementException
 from pip._vendor.pkg_resources import find_nothing
 
-"""
-Feature: Searching for cars
-
-    As a prospect used car buyer
-    I want to find cars according to my criteria
-
-
-
-Scenario: Using advanced search filters
-
-    Given I am on Truva Cari page
-    When I select a random brand from the brand dropdown list
-        And I select a random transmission from the transmission dropdown list
-        And I select a random location from the in location dropdown list
-        And I select a random score range from the in score dropdown list
-        And I select a random price range from the in price dropdown list
-    Then I see zero or more cars
-        And Every car that I see matches the criteria that I selected
-        And Every car that I see are available for sale
-        
-"""  
 
 
 from behave import *
@@ -53,7 +32,17 @@ def doScoreConversion(inputScore):
 #     else:
     return outScore
         
-    
+
+"""
+Temporary created to skip the pop-up
+"""
+def closePopUp(browser):
+    try:
+        browser.find_element(By.XPATH, "//div[@class='consulting-modal__header']/h3") 
+        
+        browser.find_element(By.XPATH, "//button[@class='close']/span").click()  
+    except:
+        pass  
             
             
 
@@ -73,7 +62,6 @@ def getFilterValue(strChosenFilter, browser):
                 break
     else:
         strChosenValue = utilCommon.getRandomElementValue(listOfElement, 0).get_attribute("text")
-        print(strChosenValue)
 
     time.sleep(2) #apparently sleep needed to wait for the value to be displayed.
             
@@ -88,7 +76,7 @@ def step_impl(context):
         context.browser.find_element(By.XPATH,"//ul[@class='nav navbar-nav pull-right']//a[@href='/cari/']").click()
     else :    
         if context.browser.current_url == sv.HOME_URL_PATH+sv.EXT_CARI_URL_PATH:
-            print ("Current URL : "+context.browser.current_url)
+            print("Current URL : "+context.browser.current_url)
             
         else:
             assert context.failed is True 
@@ -96,12 +84,14 @@ def step_impl(context):
 
 @when('I select a random brand from the brand dropdown list')
 def step_impl(context): 
+    closePopUp(context.browser)
     strValue = getFilterValue("brand",context.browser)
     context.chosenBrand = strValue
     print("brand : ",strValue) 
 
 @when('I select a random transmission from the transmission dropdown list')
 def step_impl(context):
+    closePopUp(context.browser)
     time.sleep(2) 
     strValue = getFilterValue("transmission",context.browser)
     context.chosentransmission = strValue
@@ -109,6 +99,7 @@ def step_impl(context):
 
 @when('I select a random location from the in location dropdown list')
 def step_impl(context): 
+    closePopUp(context.browser)
     time.sleep(2)
     strValue = getFilterValue("location",context.browser)
     context.chosenLocation = strValue
@@ -116,6 +107,7 @@ def step_impl(context):
          
 @when('I select a random score range from the in score dropdown list')
 def step_impl(context): 
+    closePopUp(context.browser)
     time.sleep(2)
     strValue = getFilterValue("score",context.browser)
     context.chosenScore = strValue
@@ -123,6 +115,7 @@ def step_impl(context):
 
 @when('I select a random price range from the in price dropdown list')
 def step_impl(context): 
+    closePopUp(context.browser)
     time.sleep(2)
     strValue = getFilterValue("price",context.browser)
     context.chosenPrice = strValue
@@ -130,6 +123,7 @@ def step_impl(context):
 
 @then('I see zero or more cars')
 def step_impl(context): 
+    closePopUp(context.browser)
     time.sleep(2)
     listOfElements = context.browser.find_elements(By.XPATH, "//div[@class='inventory_box car_listings boxed boxed_full']/div[@class='col-lg-3 col-md-4 col-sm-6 col-xs-12']")
         
@@ -147,6 +141,7 @@ def step_impl(context):
 
 @then('Every car that I see matches the criteria that I selected')
 def step_impl(context): 
+    closePopUp(context.browser)
     dictFindCarTestStatus = {}
     
     strKey= ""
@@ -190,7 +185,7 @@ def step_impl(context):
                     
 #             == Validate PRICE ==                     
             if(context.chosenPrice.upper().startswith("SEMUA")):
-                print("__doValidation : Skip : "+strPrice) 
+                print("__doValidation : Skip : "+context.chosenPrice) 
                 strStatus=strStatus+" : Price=Validation_Skipped"
             else:
                 strResultPrice = item.find_element(By.XPATH, "//div[@class='auto-thumb__price']").get_attribute('innerHTML')
@@ -247,6 +242,7 @@ def step_impl(context):
 
 @then('Every car that I see are available for sale')
 def step_impl(context): 
+    closePopUp(context.browser)
     if(context.soldCar > 0):
         print("Sold Car / Not Available : "+str(context.soldCar))
         assert context.failed is True
