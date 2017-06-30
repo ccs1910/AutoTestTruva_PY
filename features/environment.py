@@ -41,11 +41,17 @@ def before_all(context):
     
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
-    
-    context.browser = webdriver.Chrome(chrome_options=options)
-#     context.browser.get("https://truva.id")
+    options.binary_location = '/usr/bin/chromium-browser'
+	#All the arguments added for chromium to work on selenium
+    options.add_argument("--no-sandbox") #This make Chromium reachable
+    options.add_argument("--no-default-browser-check") #Overrides default choices
+    options.add_argument("--no-first-run")
+    options.add_argument("--disable-default-apps") 
+    context.browser = webdriver.Chrome('/home/travis/virtualenv/python3.5.3/bin/chromedriver',chrome_options=options)
+ 
+#    context.browser = webdriver.Chrome(chrome_options=options)
+	
     context.browser.get(sv.HOME_URL_PATH)
-#     outFile = open("Status_"+datetime.datetime.now().strftime(sv.DATE_FORMAT_FILE)+".txt","w+")
 
 def before_feature(context, feature):
     time.sleep(2)
