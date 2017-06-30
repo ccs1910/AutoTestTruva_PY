@@ -1,6 +1,8 @@
 language: python
 python: 3.5
 
+install:
+    - pip install -r envrequirement.txt --use-mirrors
 
 _browsers:
   chrome: &chrome
@@ -9,6 +11,8 @@ _browsers:
         packages:
           - google-chrome-stable
           
+matrix:
+    
           
 script:
     behave features/
