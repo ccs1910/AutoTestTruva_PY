@@ -2,7 +2,7 @@ language: python
 python: 3.5
 
 install:
-    - pip install -r envrequirement.txt --use-mirrors
+    - pip install -r envrequirements.txt --use-mirrors
 
 _browsers:
   chrome: &chrome
