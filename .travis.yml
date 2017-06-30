@@ -1,12 +1,12 @@
 language: python
-python: 3.5.2
+python: 3.5.3
 
 install:
     - pip install -r envrequirements.txt
 
 
 before_script:
-  - wget http://chromedriver.storage.googleapis.com/2.10/chromedriver_linux64.zip
+  - wget https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.5.2/bin
   - export CHROME_BIN=chromium-browser
   - "export DISPLAY=:99.0"
