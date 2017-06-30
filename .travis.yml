@@ -2,7 +2,7 @@ language: python
 python: 3.5.3
 
 install:
-    - source python3.5.3/bin/activate
+    - source /home/travis/virtualenv/python3.5.3/bin/activate
     - pip install -r envrequirements.txt
 
 
