@@ -16,6 +16,7 @@ from utilities import common as utilCommon
 import time
 
 
+
 @given('I am on a random car detail page on Truva')
 def step_impl(context): 
 #     print(" Move to Cari/Beli Page : ",context.browser.current_url)
