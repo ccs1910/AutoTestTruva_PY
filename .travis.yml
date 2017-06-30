@@ -1,7 +1,7 @@
 language: python
 python:
   - "3.5"
-script: behave features/
+
 
 _browsers:
   chrome: &chrome
@@ -179,7 +179,9 @@ matrix:
 before_install: ./scripts/travis/before_install.sh
 install: ./scripts/travis/install.sh
 before_script: ./scripts/travis/before_script.sh
-script: ./scripts/travis/script.sh
+script: 
+    - ./scripts/travis/script.sh
+    - behave features/
 notifications:
   email: false
   irc:
@@ -189,3 +191,6 @@ notifications:
     on_failure: always
     use_notice: true
     skip_join: true
+    
+after_failure:
+  - echo "FAILURE DETAILS (from XML reports):"
