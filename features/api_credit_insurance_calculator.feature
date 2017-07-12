@@ -24,26 +24,6 @@ Scenario Outline: Buana car credit calculator
 
 
 
-Scenario Outline: Maybank car credit calculator
-
-    Given I pick <price> as price AJAX parameter
-        And I pick <duration> as duration AJAX parameter
-    When I submit an AJAX request with action credit_maybank
-    Then I receive a JSON response
-        And JSON field downPayment is equal to <down_payment>
-        And JSON field installment is equal to <installment>
-    Examples:
-        | price     | duration | down_payment  | installment  |
-        | 100000000 |        4 |  Rp30.000.000 |  Rp1.954.167 |
-        | 150000000 |        3 |  Rp45.000.000 |  Rp3.660.417 |
-        | 250000000 |        2 |  Rp75.000.000 |  Rp8.531.250 |
-        | 350000000 |        1 | Rp105.000.000 | Rp22.152.083 |
-        | 550000000 |        2 | Rp165.000.000 | Rp18.768.750 |
-        | 650000000 |        3 | Rp195.000.000 | Rp15.861.806 |
-        | 850000000 |        4 | Rp255.000.000 | Rp16.610.417 |
-
-
-
 Scenario Outline: Oto car credit calculator
 
     Given I pick <price> as price AJAX parameter
